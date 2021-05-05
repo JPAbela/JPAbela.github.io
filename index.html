@@ -32,18 +32,10 @@ let hasHitTop = false;
 let hasHitLeft = false;
 let hasHitRight = false;
 
-let rectWidth = 15;
-let rectHeight = 15;
-
-let rectX;
-let rectY;
-
-let captured = true;
-
 function setup()
 {
-  let canvas = createCanvas(windowWidth*0.9, windowHeight*0.9);
-  canvas.position(windowWidth/2 - width/2, (windowHeight - height)/2);
+  let canvas = createCanvas(windowWidth/3, windowHeight*0.75);
+  canvas.position(windowWidth/2 -width/2, height/4);
   noStroke();
 
   xpos = width/2;
@@ -55,7 +47,6 @@ function draw()
   springBack();
 
   let ballColor = color(255, 145, 0);
-  let rectColor = color(0, 255, 0);
   let back = color(0, 165, 255);
   background(back);
 
@@ -63,22 +54,10 @@ function draw()
   ypos += yspeed;
   xpos += xspeed;
 
-  eatBall();
-
-  if(captured)
-  {
-    rectX = random(0, width - rectWidth);
-    rectY = random(0, height - rectHeight);
-    captured = false;
-  }
-
   bounceBottom();
   bounceTop();
   bounceLeft();
   bounceRight();
-
-  fill(rectColor);
-  rect(rectX, rectY, rectWidth)
 
   fill(ballColor);
   ellipse(xpos, ypos, ballWidth, ballHeight);
@@ -189,16 +168,7 @@ function bounceRight()
     yspeed *= 0.995;
   }
 }
-
-function eatBall()
-{
-  if(xpos + ballWidth/2 > rectX + rectWidth && xpos - ballWidth/2 < rectX && ypos + ballHeight/2 > rectY + rectHeight && ypos - ballHeight/2 < rectY)
-  {
-    captured = true;
-    ogBallWidth *= 1.2;
-    ogBallHeight *= 1.2;
-  }
-}</script>
+  </script>
 </head>
 
 <body>
