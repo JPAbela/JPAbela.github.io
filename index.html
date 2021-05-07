@@ -140,13 +140,11 @@
     if(keyCode === UP_ARROW)
     {
       yspeed = -8;
-      // hasStarted = true;
     }
 
     if(keyCode === LEFT_ARROW)
     {
       xspeed -= 2;
-      // hasStarted = true;
     }
 
     if(keyCode === RIGHT_ARROW)
@@ -159,6 +157,23 @@
     //   xspeed = random(-10, 10);
     //   yspeed = random(-5, -20);
     // }
+  }
+    
+  function keyTyped() 
+  {
+    hasStarted = true;
+    if (key === 'w') 
+    {
+      yspeed = -8;
+    } 
+    else if (key === 'a') 
+    {
+      xspeed -= 2;
+    }
+    else if (key === 'd')
+    {
+      xspeed += 2;
+    }
   }
 
   function bounceBottom()
