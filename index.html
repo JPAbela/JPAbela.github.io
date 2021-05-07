@@ -161,17 +161,19 @@
     
   function keyTyped() 
   {
-    hasStarted = true;
     if (key === 'w') 
     {
+      hasStarted = true;
       yspeed = -8;
     } 
     else if (key === 'a') 
     {
+      hasStarted = true;
       xspeed -= 2;
     }
     else if (key === 'd')
     {
+      hasStarted = true;
       xspeed += 2;
     }
   }
