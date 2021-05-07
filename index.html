@@ -158,27 +158,7 @@
     //   yspeed = random(-5, -20);
     // }
   }
-    
-  function keyTyped() 
-  {
-    if (key === 'w') 
-    {
-      hasStarted = true;
-      yspeed = -8;
-    } 
-    else if (key === 'a') 
-    {
-      hasStarted = true;
-      xspeed -= 2;
-    }
-    else if (key === 'd')
-    {
-      hasStarted = true;
-      xspeed += 2;
-    }
-    return false;
-  }
-
+  
   function bounceBottom()
   {
     if(ypos + ballHeight/2 > height)
