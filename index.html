@@ -136,19 +136,19 @@
 
   function keyPressed()
   {
-    if(keyCode === UP_ARROW)
+    if(keyCode === UP_ARROW || key === 'w')
     {
       yspeed = -8;
       hasStarted = true;
     }
 
-    if(keyCode === LEFT_ARROW)
+    if(keyCode === LEFT_ARROW || key === 'a')
     {
       xspeed -= 2;
       hasStarted = true;
     }
 
-    if(keyCode === RIGHT_ARROW)
+    if(keyCode === RIGHT_ARROW || key === 'd')
     {
       xspeed += 2;
       hasStarted = true;
