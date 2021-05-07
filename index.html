@@ -136,20 +136,22 @@
 
   function keyPressed()
   {
-    hasStarted = true;
     if(keyCode === UP_ARROW)
     {
       yspeed = -8;
+      hasStarted = true;
     }
 
     if(keyCode === LEFT_ARROW)
     {
       xspeed -= 2;
+      hasStarted = true;
     }
 
     if(keyCode === RIGHT_ARROW)
     {
       xspeed += 2;
+      hasStarted = true;
     }
 
     // if(keyCode === RETURN)
