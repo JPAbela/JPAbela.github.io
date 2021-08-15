@@ -22,8 +22,10 @@ let rectY;
 let captured = true;
 
 let hasStarted = false;
+let hasEnded = false;
 
 let timer = 0;
+let finTime = 0;
 
   function setup()
   {
@@ -51,29 +53,35 @@ let timer = 0;
       text('Use the arrows to move the ball and eat the square. Try to get the lowest time possible.', width/2 - width/4, height/6, width/2, height/3)
     }
 
-    if(hasStarted)
+    if(hasStarted && !hasEnded)
     {
       fill(color(0));
       text('Time: ', 5, 5, 100, 50);
       text(timer, 130, 5, 100, 50);
-      timer += 0.0165;
+      timer += 0.015;
       timer *= 100;
       timer = round(timer);
       timer /= 100;
     }
 
-    if(ogBallWidth > width/2.5)
+    if(hasEnded)
     {
-      fill(back);
-      rect(0, 0, width, 100);
-      ballWidth = 0;
-      ballHeight = 0;
-      rectWidth = 0;
       let textColor = color(0);
       fill(textColor);
       textSize(50);
-      text('Good Job! Your time: ' + timer, width/2 - width/4, height/6, width/2, height/4);
-      noLoop();
+      text('Good Job! Your time: ' + finTime, width/4, height/6, width/2, height/4);
+      text('Press Enter to play again.', width/4, height/2, width/2, height/4);
+    }
+
+    if(ogBallWidth > width/2.5 && !hasEnded)
+    {
+      hasEnded = true;
+      ballWidth = 0;
+      ogBallWidth = 0;
+      ballHeight = 0;
+      ogBallHeight = 0;
+      rectWidth = 0;
+      finTime = timer;
     }
 
     yspeed += gravity;
@@ -122,7 +130,7 @@ let timer = 0;
       yspeed = -8;
       hasStarted = true;
     }
-    
+
     if(keyCode === LEFT_ARROW || key === 'a')
     {
       xspeed -= 2;
@@ -135,13 +143,33 @@ let timer = 0;
       hasStarted = true;
     }
 
+    if(keyCode === ENTER && hasEnded)
+    {
+      hasEnded = false;
+      hasStarted = false;
+
+      ogBallWidth = 30;
+      ogBallHeight = 30;
+      rectWidth = 15;
+
+      xpos = width/2;
+      ypos = height - ballHeight/2;
+
+      xspeed = 0;
+      yspeed = 0;
+
+      timer = 0;
+
+      captured = true;
+    }
+
     // if(keyCode === RETURN)
     // {
     //   xspeed = random(-10, 10);
     //   yspeed = random(-5, -20);
     // }
   }
-  
+
   function bounceBottom()
   {
     if(ypos + ballHeight/2 > height)
