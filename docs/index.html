@@ -6,7 +6,16 @@
     <style>
     body {
       text-align: center;
+      background-color: gray;
     }
+    #welcome {
+      text-align: center;
+      position: absolute;
+      bottom: 80%;
+      left: 40%;
+      width: 20%;
+    }
+
     .button {
       background-color: rgb(114, 255, 44);
       border: none;
@@ -18,6 +27,10 @@
       font-size: 16px;
       margin: 4px 2px;
       cursor: pointer;
+      position: absolute;
+      bottom: 70%;
+      left: 39%;
+      width: 18%;
     }
     #thatsIt {
       text-align: center;
@@ -28,7 +41,7 @@
     </style>
   </head>
   <body>
-    <h1><br><br><br><br>Welcome to my website!</h1>
+    <h1 id="welcome">Welcome to my website!</h1>
     <a class="button" href="ballGame.html">Click here to play the only game I've created</a>
     <p id="thatsIt">Thats it.</p>
   </body>
