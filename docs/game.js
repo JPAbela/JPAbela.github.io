@@ -73,7 +73,7 @@ let finTime = 0;
       text('Press Enter to play again.', width/4, height/2, width/2, height/4);
     }
 
-    if(ogBallWidth > width/2.5 && !hasEnded)
+    if((ogBallWidth > width/2.5 && !hasEnded) || (ogBallHeight > height*.8 && !hasEnded))
     {
       hasEnded = true;
       ballWidth = 0;
