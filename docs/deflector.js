@@ -4,6 +4,8 @@ let yposleft;
 let xposright;
 let yposright;
 
+let lineLength;
+
 function setup()
 {
   let canvas = createCanvas(windowWidth*0.9, windowHeight*0.9);
@@ -16,6 +18,8 @@ function setup()
 
   xposright = width/3;
   yposright = height - 40;
+
+  lineLength = (2/9) * width;
 }
 
 function draw()
@@ -23,5 +27,24 @@ function draw()
   let back = color(0, 165, 255);
   background(back);
 
-  line(xposleft, yposleft, xposright, yposright);
+  line(findXpos(yposleft), yposleft, xposright, yposright);
+}
+
+function findXpos(ypos)
+{
+  xpos = xposright - sqrt(pow(lineLength, 2) - pow((yposright - yposleft), 2));
+  return xpos;
+}
+
+function keyPressed()
+{
+  if(keyCode === UP_ARROW)
+  {
+    yposleft -= 10;
+  }
+
+  else if(keyCode === DOWN_ARROW)
+  {
+    yposleft += 10;
+  }
 }
