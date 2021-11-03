@@ -6,6 +6,8 @@ let yposright;
 
 let lineLength;
 
+let angle = 0;
+
 function setup()
 {
   let canvas = createCanvas(windowWidth*0.9, windowHeight*0.9);
@@ -27,24 +29,35 @@ function draw()
   let back = color(0, 165, 255);
   background(back);
 
-  line(findXpos(yposleft), yposleft, xposright, yposright);
+  line(findXpos(angle), findYpos(angle), xposright, yposright);
 }
 
-function findXpos(ypos)
+function findXpos(angle)
 {
-  xpos = xposright - sqrt(pow(lineLength, 2) - pow((yposright - yposleft), 2));
-  return xpos;
+  xdist = lineLength * cos(angle);
+  return width/3 - xdist;
 }
+
+function findYpos(angle)
+{
+  yheight = lineLength * sin(angle);
+  return (height - 40) - yheight;
+}
+
+// function findAngle(height)
+// {
+//   return asin(height/lineLength)
+// }
 
 function keyPressed()
 {
   if(keyCode === UP_ARROW)
   {
-    yposleft -= 10;
+    angle += .05 * QUARTER_PI;
   }
 
   else if(keyCode === DOWN_ARROW)
   {
-    yposleft += 10;
+    angle -= .05 * QUARTER_PI;
   }
 }
