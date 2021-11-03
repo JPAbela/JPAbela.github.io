@@ -51,12 +51,12 @@ function findYpos(angle)
 
 function keyPressed()
 {
-  if(keyCode === UP_ARROW)
+  if(keyCode === UP_ARROW && angle < HALF_PI)
   {
     angle += .05 * QUARTER_PI;
   }
 
-  else if(keyCode === DOWN_ARROW)
+  else if(keyCode === DOWN_ARROW && angle > 0)
   {
     angle -= .05 * QUARTER_PI;
   }
