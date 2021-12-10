@@ -1,0 +1,101 @@
+#header {
+  position: fixed;
+  text-align: right;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  background: rgb(164,11,0);
+  padding: 5px;
+}
+
+#profile {
+  padding-right: 10px;
+  font-size: 20px;
+  color: black;
+  text-decoration: none;
+}
+
+#content {
+  margin: 100px;
+  margin-top: 150px;
+  margin-bottom: 20%;
+  border: 1px solid gray;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.requests {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#user-input {
+  position: relative;
+  left: 90px;
+  bottom: 40px;
+}
+
+#user-result {
+  position: relative;
+  bottom: 30px;
+}
+
+#backButton {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  /* margin: 25px; */
+  padding: 25px;
+  color: black;
+  text-decoration: none;
+}
+
+#backButton:hover {
+  border: 1px solid gray;
+}
+
+#submitButt {
+  margin-bottom: 15px;
+  margin-left: 77px;
+  width: 152px;
+}
+
+#welcome {
+  margin-top: 20%;
+  margin-left: 35%;
+  margin-right: 35%;
+  margin-bottom: 50%;
+  width: 30%;
+
+}
+
+#footer {
+  background-color: rgb(192, 192, 192);
+  position: absolute;
+  margin-left: 1%;
+  margin-right: 1%;
+  bottom: 0px;
+  height: 100px;
+  width: 98%;
+
+}
+
+#footerScrollable {
+  background-color: rgb(192, 192, 192);
+  position: relative;
+  margin-left: 1%;
+  margin-right: 1%;
+  bottom: 0px;
+  height: 100px;
+  width: 98%;
+}
+
+body {
+  background-color: rgb(224, 224, 224);
+  margin: 0;
+}
+
+#footerText {
+  position: absolute;
+  left: 30%;
+}
