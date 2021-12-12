@@ -61,3 +61,4 @@ function keyPressed()
     angle -= .05 * QUARTER_PI;
   }
 }
+//  use the law of reflection for ball bounce
