@@ -41,7 +41,7 @@ function setup()
 
 function draw()
 {
-  frameRate(2);
+  // frameRate(2);
   springBack();
 
   let back = color(0, 165, 255);
@@ -162,7 +162,7 @@ function bounceRamp()
 {
   let y = yposright - ypos;
   let x = xposright - xpos;
-  if(round(y/sqrt(pow(y, 2) + pow(x, 2))) == round(sin(angle)))
+  if(round(y/sqrt(pow(y, 2) + pow(x, 2)), 1) < round(sin(angle), 1))
   {
     yspeed *= -0.6;
   }
