@@ -39,6 +39,7 @@ function setup()
 
 function draw()
 {
+  frameRate(2);
   springBack();
 
   let ballColor = color(255, 145, 0);
