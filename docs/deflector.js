@@ -161,7 +161,7 @@ function bounceRamp()
 {
   let y = yposright - ypos;
   let x = xposright - xpos;
-  if(y/sqrt(pow(y, 2) + pow(x, 2)) == sin(angle))
+  if(round(y/sqrt(pow(y, 2) + pow(x, 2))) == round(sin(angle)))
   {
     yspeed *= -0.6;
   }
