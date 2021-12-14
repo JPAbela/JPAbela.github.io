@@ -59,6 +59,7 @@ function draw()
   bounceTop();
   bounceLeft();
   bounceRight();
+  bounceRamp();
 
   noStroke();
   fill(ballColor);
@@ -153,6 +154,16 @@ function bounceRight()
     xpos = width - ballHeight/2;
     xspeed *= -0.6;
     yspeed *= 0.995;
+  }
+}
+
+function bounceRamp()
+{
+  let y = yposright - ypos;
+  let x = xposright - xpos;
+  if(y/sqrt(pow(y, 2) + pow(x, 2)) == sin(angle))
+  {
+    yspeed *= -0.6;
   }
 }
 
