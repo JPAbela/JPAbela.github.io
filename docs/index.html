@@ -38,12 +38,13 @@
       </table>
       <button id="submitButt" onclick="submit()">Submit</button>
       <script>function go() {
-        var username = document.getElementById('username').value;
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
         if(event.keyCode === 13) {
-          if(username.toLowerCase() === "admin") {
+          if((username.toLowerCase() === "admin") && (password.toLowerCase() === "password")) {
             window.open("admin.html", "_self");
           }
-          else if (username.toLowerCase() === "user") {
+          else if ((username.toLowerCase() === "user") && (password.toLowerCase() === "password")) {
             window.open("user.html", "_self");
           }
         }
