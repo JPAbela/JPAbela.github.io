@@ -41,6 +41,7 @@ function setup()
 
 function draw()
 {
+  frameRate(2);
   springBack();
 
   let back = color(0, 165, 255);
