@@ -22,6 +22,8 @@ let lineLength;
 
 let angle = 0;
 
+let released = false;
+
 function setup()
 {
   let canvas = createCanvas(windowWidth*0.9, windowHeight*0.9);
@@ -41,7 +43,7 @@ function setup()
 
 function draw()
 {
-  // frameRate(2);
+  frameRate();
   springBack();
 
   let back = color(0, 165, 255);
@@ -52,15 +54,17 @@ function draw()
   stroke(150);
   line(findXpos(angle), findYpos(angle), xposright, yposright);
 
+  // grav();
   yspeed += gravity;
-  ypos += yspeed;
-  xpos += xspeed;
 
+  bounceRamp();
   bounceBottom();
   bounceTop();
   bounceLeft();
   bounceRight();
-  bounceRamp();
+
+  ypos += yspeed;
+  xpos += xspeed;
 
   noStroke();
   fill(ballColor);
@@ -70,13 +74,13 @@ function draw()
 function findXpos(angle)
 {
   xdist = lineLength * cos(angle);
-  return width/3 - xdist;
+  return xposright - xdist;
 }
 
 function findYpos(angle)
 {
   yheight = lineLength * sin(angle);
-  return (height - 40) - yheight;
+  return yposright - yheight;
 }
 
 
@@ -90,6 +94,11 @@ function keyPressed()
   else if(keyCode === DOWN_ARROW && angle > 0)
   {
     angle -= .05 * QUARTER_PI;
+  }
+
+  else if(keyCode === ENTER)
+  {
+    released = true;
   }
 }
 
@@ -158,14 +167,59 @@ function bounceRight()
   }
 }
 
+// function bounceRamp()
+// {
+//   let y = yposright - ypos;
+//   let x = xposright - xpos;
+//   console.log(atan(y/x));
+//   console.log(angle);
+//   line(xposright - x, yposright - y, xposright, yposright);
+//   line(xpos, yposright - y, xpos, yposright);
+//   line(xpos, yposright, xposright, yposright);
+//   if(round(atan(y/x), 7) <= round(angle, 7))
+//   {
+//     // console.log(y/x);
+//     // console.log(atan(y/x));
+//     // console.log(angle);
+//     yspeed *= -.6;
+//   }
+//
+//   if(atan(y/x) == 0)
+//   {
+//     yspeed *= -.6;
+//   }
+// }
+
+function yVal()
+{
+  let x = xposright - xpos;
+  let y = x * tan(angle);
+  yval = yposright - y;
+  return yval;
+}
+
 function bounceRamp()
 {
-  let y = yposright - ypos;
-  let x = xposright - xpos;
-  if(round(y/sqrt(pow(y, 2) + pow(x, 2)), 1) < round(sin(angle), 1))
+  yval = yVal();
+  if(ypos >= yval)
   {
-    yspeed *= -0.6;
+    ypos = yval - 1;
+    yspeed *= -.6;
+  }
+
+  if(ypos + yspeed > yval)
+  {
+    ypos = yval - 1;
+    yspeed *= -.6;
   }
 }
+
+// function grav()
+// {
+//   if(released)
+//   {
+//     yspeed += gravity;
+//   }
+// }
 
 //  use the law of reflection for ball bounce
