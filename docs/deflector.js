@@ -63,7 +63,15 @@ function draw()
   bounceLeft();
   bounceRight();
 
+  if(yspeed > -.1 && yspeed < .1)
+  {
+    yspeed = 0;
+  }
   ypos += yspeed;
+  if(xspeed > -.001 && xspeed < .001)
+  {
+    xspeed = 0;
+  }
   xpos += xspeed;
 
   noStroke();
