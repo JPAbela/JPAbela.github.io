@@ -12,9 +12,6 @@ let yspeed = 0.1;
 
 let gravity = 0.4;
 
-let xposleft;
-let yposleft;
-
 let xposright;
 let yposright;
 
@@ -22,15 +19,12 @@ let lineLength;
 
 let angle = 0;
 
-let released = false;
+let released;
 
 function setup()
 {
   let canvas = createCanvas(windowWidth*0.9, windowHeight*0.9);
   canvas.position((windowWidth - width)/2, (windowHeight - height)/2);
-
-  xposleft = width/9;
-  yposleft = height - 40;
 
   xposright = width/3;
   yposright = height - 40;
@@ -39,6 +33,8 @@ function setup()
 
   xpos = (5/18) * width;
   ypos = ogBallHeight/2;
+
+  released = false;
 }
 
 function draw()
@@ -54,9 +50,15 @@ function draw()
   stroke(150);
   line(findXpos(angle), findYpos(angle), xposright, yposright);
 
-  // grav();
-  yspeed += gravity;
-
+  if(released)
+  {
+    yspeed += gravity;
+  }
+  if(!released)
+  {
+    yspeed = 0;
+  }
+  
   bounceRamp();
   bounceBottom();
   bounceTop();
@@ -68,7 +70,7 @@ function draw()
     yspeed = 0;
   }
   ypos += yspeed;
-  if(xspeed > -.001 && xspeed < .001)
+  if(xspeed > -.1 && xspeed < .1)
   {
     xspeed = 0;
   }
@@ -94,19 +96,31 @@ function findYpos(angle)
 
 function keyPressed()
 {
-  if(keyCode === UP_ARROW && angle < HALF_PI)
+  if(keyCode === UP_ARROW && angle < HALF_PI - QUARTER_PI/2)
   {
     angle += .05 * QUARTER_PI;
   }
-
   else if(keyCode === DOWN_ARROW && angle > 0)
   {
     angle -= .05 * QUARTER_PI;
   }
-
   else if(keyCode === ENTER)
   {
     released = true;
+  }
+  else if(keyCode === LEFT_ARROW)
+  {
+    if(!released && xpos > findXpos(angle))
+    {
+      xpos -= 5;
+    }
+  }
+  else if(keyCode === RIGHT_ARROW)
+  {
+    if(!released && xpos < xposright)
+    {
+      xpos += 5;
+    }
   }
 }
 
@@ -221,13 +235,5 @@ function bounceRamp()
     yspeed *= -.6;
   }
 }
-
-// function grav()
-// {
-//   if(released)
-//   {
-//     yspeed += gravity;
-//   }
-// }
 
 //  use the law of reflection for ball bounce
