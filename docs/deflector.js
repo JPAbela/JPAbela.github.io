@@ -8,9 +8,9 @@ let xpos;
 let ypos;
 
 let xspeed = 0;
-let yspeed = 0.1;
+let yspeed = 0;
 
-let gravity = 0.4;
+let gravity = .6;
 
 let xposright;
 let yposright;
@@ -31,7 +31,7 @@ function setup()
 
   lineLength = (2/9) * width;
 
-  xpos = (5/18) * width;
+  xpos = findXpos(angle) + (xposright - findXpos(angle))/2;
   ypos = ogBallHeight/2;
 
   released = false;
@@ -54,10 +54,6 @@ function draw()
   {
     yspeed += gravity;
   }
-  if(!released)
-  {
-    yspeed = 0;
-  }
   
   bounceRamp();
   bounceBottom();
@@ -65,12 +61,12 @@ function draw()
   bounceLeft();
   bounceRight();
 
-  if(yspeed > -.1 && yspeed < .1)
+  if(yspeed > -.6 && yspeed < .6)
   {
     yspeed = 0;
   }
   ypos += yspeed;
-  if(xspeed > -.1 && xspeed < .1)
+  if(xspeed > -.6 && xspeed < .6)
   {
     xspeed = 0;
   }
@@ -142,7 +138,7 @@ function bounceBottom()
     // hasHitBottom = true;
     ypos = height - ballHeight/2;
     yspeed *= -0.6;
-    xspeed *= 0.995;
+    xspeed *= 0.9;
   }
   if(ypos + ballHeight/2 === height)
   {
@@ -223,16 +219,14 @@ function yVal()
 function bounceRamp()
 {
   yval = yVal();
-  if(ypos >= yval)
+  if(xpos >= findXpos(angle) && xpos <= xposright && (ypos >= yval || ypos + yspeed > yval))
   {
     ypos = yval - 1;
-    yspeed *= -.6;
-  }
-
-  if(ypos + yspeed > yval)
-  {
-    ypos = yval - 1;
-    yspeed *= -.6;
+    totSpeed = .6 * yspeed;
+    yspeed = -1 * totSpeed * sin(HALF_PI - (2 * angle));
+    console.log(yspeed);
+    xspeed = totSpeed * cos(HALF_PI - (2 * angle));
+    console.log(xspeed);
   }
 }
 
