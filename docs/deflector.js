@@ -54,7 +54,7 @@ function draw()
   {
     yspeed += gravity;
   }
-  
+
   bounceRamp();
   bounceBottom();
   bounceTop();
@@ -137,7 +137,7 @@ function bounceBottom()
     ballWidth *= 1 + (yspeed * .001);
     // hasHitBottom = true;
     ypos = height - ballHeight/2;
-    yspeed *= -0.6;
+    yspeed *= -0.65;
     xspeed *= 0.9;
   }
   if(ypos + ballHeight/2 === height)
@@ -154,7 +154,7 @@ function bounceTop()
     ballWidth *= 1 + (-yspeed * .001);
     // hasHitTop = true;
     ypos = ballHeight/2;
-    yspeed *= -0.6;
+    yspeed *= -0.65;
     xspeed *= 0.995;
   }
 }
@@ -167,7 +167,7 @@ function bounceLeft()
     ballWidth *= 1 - (-xspeed * .001);
     // hasHitLeft = true;
     xpos = ballHeight/2;
-    xspeed *= -0.6;
+    xspeed *= -0.65;
     yspeed *= 0.995;
   }
 }
@@ -180,7 +180,7 @@ function bounceRight()
     ballWidth *= 1 - (yspeed * .001);
     // hasHitRight = true;
     xpos = width - ballHeight/2;
-    xspeed *= -0.6;
+    xspeed *= -0.65;
     yspeed *= 0.995;
   }
 }
@@ -222,7 +222,7 @@ function bounceRamp()
   if(xpos >= findXpos(angle) && xpos <= xposright && (ypos >= yval || ypos + yspeed > yval))
   {
     ypos = yval - 1;
-    totSpeed = .6 * yspeed;
+    totSpeed = .65 * yspeed;
     yspeed = -1 * totSpeed * sin(HALF_PI - (2 * angle));
     console.log(yspeed);
     xspeed = totSpeed * cos(HALF_PI - (2 * angle));
