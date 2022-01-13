@@ -37,27 +37,59 @@
         </tbody>
       </table>
       <button id="submitButt" onclick="submit()">Submit</button>
-      <script>function go() {
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
+      <p id="invalid"></p>
+      <script>
+
+      function go() {
+        var username = document.getElementById("username").value.toLowerCase();
+        var password = document.getElementById("password").value.toLowerCase();
         if(event.keyCode === 13) {
-          if((username.toLowerCase() === "admin") && (password.toLowerCase() === "password")) {
-            window.open("admin.html", "_self");
+          if(username === "admin") {
+            if(password === "password") {
+              window.open("admin.html", "_self");
+            }
+            else {
+              document.getElementById("invalid").innerHTML = "Incorrect Password";
+            }
           }
-          else if ((username.toLowerCase() === "user") && (password.toLowerCase() === "password")) {
-            window.open("user.html", "_self");
+          else if(username === "user") {
+            if(password === "password") {
+              window.open("user.html", "_self");
+            }
+            else {
+              document.getElementById("invalid").innerHTML = "Incorrect Password";
+            }
+          }
+          else {
+            document.getElementById("invalid").innerHTML = "Invalid Username";
           }
         }
       }
+
       function submit() {
-        var username = document.getElementById('username').value;
-        if(username.toLowerCase() === "admin") {
-          window.open("admin.html", "_self");
+        var username = document.getElementById("username").value.toLowerCase();
+        var password = document.getElementById("password").value.toLowerCase();
+        if(username === "admin") {
+          if(password === "password") {
+            window.open("admin.html", "_self");
+          }
+          else {
+            document.getElementById("invalid").innerHTML = "Incorrect Password";
+          }
         }
-        else if (username.toLowerCase() === "user") {
-          window.open("user.html", "_self");
+        else if(username === "user") {
+          if(password === "password") {
+            window.open("user.html", "_self");
+          }
+          else {
+            document.getElementById("invalid").innerHTML = "Incorrect Password";
+          }
         }
-      }</script>
+        else {
+          document.getElementById("invalid").innerHTML = "Invalid Username";
+        }
+      }
+      </script>
     </div>
 
     <div id="footerScrollable">
