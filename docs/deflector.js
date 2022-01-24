@@ -61,9 +61,10 @@ function draw()
   bounceLeft();
   bounceRight();
 
-  if(yspeed > -.6 && yspeed < .6)
+  if((ypos > height - (ballHeight * .6)) && (yspeed > -.6 && yspeed < .6))
   {
     yspeed = 0;
+    ypos = height - ballHeight/2;
   }
   ypos += yspeed;
   if(xspeed > -.6 && xspeed < .6)
@@ -103,6 +104,8 @@ function keyPressed()
   else if(keyCode === ENTER)
   {
     released = true;
+    console.log(ypos);
+    console.log(height - ballHeight/2);
   }
   else if(keyCode === LEFT_ARROW)
   {
