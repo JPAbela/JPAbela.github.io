@@ -61,10 +61,10 @@ function draw()
   bounceLeft();
   bounceRight();
 
-  if((ypos > height - (ballHeight * .6)) && (yspeed > -.6 && yspeed < .6))
+  if((ypos > height - (ballHeight * .6)) && (yspeed > -.8 && yspeed < .8))
   {
-    yspeed = 0;
     ypos = height - ballHeight/2;
+    yspeed = 0;
   }
   ypos += yspeed;
   if(xspeed > -.6 && xspeed < .6)
