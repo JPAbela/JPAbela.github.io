@@ -96,6 +96,10 @@ function keyPressed()
   if(keyCode === UP_ARROW && angle < HALF_PI - QUARTER_PI/2)
   {
     angle += .05 * QUARTER_PI;
+    if(findXpos(angle) > xpos)
+    {
+      xpos = findXpos(angle);
+    }
   }
   else if(keyCode === DOWN_ARROW && angle > 0)
   {
@@ -104,19 +108,17 @@ function keyPressed()
   else if(keyCode === ENTER)
   {
     released = true;
-    console.log(ypos);
-    console.log(height - ballHeight/2);
   }
   else if(keyCode === LEFT_ARROW)
   {
-    if(!released && xpos > findXpos(angle))
+    if(!released && xpos > findXpos(angle) + 5)
     {
       xpos -= 5;
     }
   }
   else if(keyCode === RIGHT_ARROW)
   {
-    if(!released && xpos < xposright)
+    if(!released && xpos < xposright - 5)
     {
       xpos += 5;
     }
@@ -227,9 +229,9 @@ function bounceRamp()
     ypos = yval - 1;
     totSpeed = .65 * yspeed;
     yspeed = -1 * totSpeed * sin(HALF_PI - (2 * angle));
-    console.log(yspeed);
+    // console.log(yspeed);
     xspeed = totSpeed * cos(HALF_PI - (2 * angle));
-    console.log(xspeed);
+    // console.log(xspeed);
   }
 }
 
