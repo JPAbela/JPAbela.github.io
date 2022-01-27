@@ -21,6 +21,8 @@ let angle = 0;
 
 let released;
 
+let speedCheck = false;
+
 function setup()
 {
   let canvas = createCanvas(windowWidth*0.9, windowHeight*0.9);
@@ -61,17 +63,18 @@ function draw()
   bounceLeft();
   bounceRight();
 
-  if((ypos > height - (ballHeight * .6)) && (yspeed > -.8 && yspeed < .8))
-  {
-    ypos = height - ballHeight/2;
-    yspeed = 0;
-  }
+
   ypos += yspeed;
-  if(xspeed > -.6 && xspeed < .6)
+  if(xspeed > -.3 && xspeed < .3)
   {
     xspeed = 0;
   }
   xpos += xspeed;
+
+  if(speedCheck)
+  {
+    console.log(yspeed);
+  }
 
   noStroke();
   fill(ballColor);
@@ -123,6 +126,17 @@ function keyPressed()
       xpos += 5;
     }
   }
+  else if(keyCode === OPTION)
+  {
+    if(speedCheck)
+    {
+      speedCheck = false;
+    }
+    else
+    {
+      speedCheck = true;
+    }
+  }
 }
 
 function springBack()
@@ -147,7 +161,12 @@ function bounceBottom()
   }
   if(ypos + ballHeight/2 === height)
   {
-    xspeed *= 0.995;
+    xspeed *= 0.98;
+  }
+  if((ypos > height - (ballHeight * .6)) && (yspeed > -1.5 && yspeed < 2.31))
+  {
+    ypos = height - ballHeight/2;
+    yspeed = 0;
   }
 }
 
@@ -224,9 +243,9 @@ function yVal()
 function bounceRamp()
 {
   yval = yVal();
-  if(xpos >= findXpos(angle) && xpos <= xposright && (ypos >= yval || ypos + yspeed > yval))
+  if(xpos >= findXpos(angle) && xpos <= xposright && (ypos >= yval - ballHeight/2 || ypos + yspeed > yval - ballHeight/2))
   {
-    ypos = yval - 1;
+    ypos = yval - (ballHeight/2 + 10);
     totSpeed = .65 * yspeed;
     yspeed = -1 * totSpeed * sin(HALF_PI - (2 * angle));
     // console.log(yspeed);
