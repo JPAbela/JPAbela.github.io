@@ -23,13 +23,15 @@ let released;
 
 let speedCheck = false;
 
+let hasBounced = false;
+
 function setup()
 {
   let canvas = createCanvas(windowWidth*0.9, windowHeight*0.9);
   canvas.position((windowWidth - width)/2, (windowHeight - height)/2);
 
   xposright = width/3;
-  yposright = height - 40;
+  yposright = height - 10;
 
   lineLength = (2/9) * width;
 
@@ -243,14 +245,26 @@ function yVal()
 function bounceRamp()
 {
   yval = yVal();
-  if(xpos >= findXpos(angle) && xpos <= xposright && (ypos >= yval - ballHeight/2 || ypos + yspeed > yval - ballHeight/2))
+  if(xpos >= findXpos(angle) && xpos <= xposright)
   {
-    ypos = yval - (ballHeight/2 + 10);
-    totSpeed = .65 * yspeed;
-    yspeed = -1 * totSpeed * sin(HALF_PI - (2 * angle));
-    // console.log(yspeed);
-    xspeed = totSpeed * cos(HALF_PI - (2 * angle));
-    // console.log(xspeed);
+    if(ypos >= yval - (ballHeight/2 + 10) || ypos + yspeed > yval - (ballHeight/2 - 10))
+    {
+      ypos = yval - (ballHeight/2  + 10);
+      if(hasBounced){
+        totSpeed = .65 * yspeed;
+      }
+      else{
+        totSpeed = .8 * yspeed;
+        hasBounced = true;  
+      }
+      yspeed = -1 * totSpeed * sin(HALF_PI - (2 * angle));
+      xspeed = totSpeed * cos(HALF_PI - (2 * angle));
+    }
+    if((ypos > yval - (ballHeight * .6 + 10)) && (yspeed > -3.8 && yspeed < 4.07))
+    {
+      ypos = yval - (ballHeight/2 + 10);
+      yspeed = 0;
+    }
   }
 }
 
