@@ -214,5 +214,9 @@ window.onload = () => {
   initBoids();
 
   // Schedule the main animation loop
-  window.requestAnimationFrame(animationLoop);
+  function start() {
+    window.requestAnimationFrame(animationLoop);
+  };
+
+  start();
 };
