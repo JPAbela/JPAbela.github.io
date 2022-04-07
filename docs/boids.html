@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <title>Boids</title>
     <script src="boids.js"></script>
     <style type="text/css">
@@ -13,6 +14,9 @@
     </style>
   </head>
   <body>
-    <canvas id="boids" width="150" height="150"></canvas>
+    <div style="position: fixed; z-index: 1;" class="column">
+      <a class="button is-light" href="index.html">Back</a>
+    </div>
+    <canvas style="z-index: 0;" id="boids" width="150" height="150"></canvas>
   </body>
 </html>

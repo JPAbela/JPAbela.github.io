@@ -27,8 +27,9 @@ let hasBounced = false;
 
 function setup()
 {
-  let canvas = createCanvas(windowWidth*0.9, windowHeight*0.9);
-  canvas.position((windowWidth - width)/2, (windowHeight - height)/2);
+  let canvas = createCanvas(windowWidth, windowHeight);
+  // canvas.position((windowWidth - width)/2, (windowHeight - height)/2);
+  canvas.position(0,0);
 
   xposright = width/3;
   yposright = height - 10;
@@ -255,7 +256,7 @@ function bounceRamp()
       }
       else{
         totSpeed = .8 * yspeed;
-        hasBounced = true;  
+        hasBounced = true;
       }
       yspeed = -1 * totSpeed * sin(HALF_PI - (2 * angle));
       xspeed = totSpeed * cos(HALF_PI - (2 * angle));

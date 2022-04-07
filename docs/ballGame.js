@@ -29,8 +29,8 @@ let finTime = 0;
 
 function setup()
 {
-  let canvas = createCanvas(windowWidth*0.9, windowHeight*0.9);
-  canvas.position((windowWidth - width)/2, (windowHeight - height)/2);
+  let canvas = createCanvas(windowWidth, windowHeight);
+  canvas.position(0,0);
   noStroke();
 
   xpos = width/2;
@@ -57,8 +57,8 @@ function draw()
   if(hasStarted && !hasEnded)
   {
     fill(color(0));
-    text('Time: ', 5, 5, 100, 50);
-    text(timer, 130, 5, 100, 50);
+    text('Time: ', 5, 70, 100, 50);
+    text(timer, 130, 70, 100, 50);
     timer += 0.015;
     timer *= 100;
     timer = round(timer);
