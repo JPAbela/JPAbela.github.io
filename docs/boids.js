@@ -210,13 +210,15 @@ window.onload = () => {
   window.addEventListener("resize", sizeCanvas, false);
   sizeCanvas();
 
-  // Randomly distribute the boids to start
-  initBoids();
-
   // Schedule the main animation loop
   function start() {
-    window.requestAnimationFrame(animationLoop);
+    boids = [];
+    // Randomly distribute the boids to start
+    initBoids();
   };
-
   start();
+
+  window.requestAnimationFrame(animationLoop);
+
+  document.getElementById("restart").addEventListener("click", start);
 };
