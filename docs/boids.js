@@ -3,7 +3,8 @@ let width = 150;
 let height = 150;
 
 const numBoids = 200;
-const visualRange = 100;
+const fov = 100;
+let visualRange = fov;
 
 var boids = [];
 
@@ -218,10 +219,27 @@ window.onload = () => {
 
   function restart() {
     boids = [];
+    visualRange = fov;
     initBoids();
+  };
+
+  function fovUp() {
+    if(visualRange <= 190) {
+      visualRange += 10;
+      document.getElementById("fov").innerText = "Field of Vision: " + visualRange/10;
+    }
+  };
+
+  function fovDown() {
+    if(visualRange >= 10) {
+      visualRange -= 10;
+      document.getElementById("fov").innerText = "Field of Vision: " + visualRange/10;
+    };
   };
 
 
   // Add ability to Restart
   document.getElementById("restart").addEventListener("click", restart);
+  document.getElementById("fovDown").addEventListener("click", fovDown);
+  document.getElementById("fovUp").addEventListener("click", fovUp);
 };
