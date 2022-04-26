@@ -220,6 +220,7 @@ window.onload = () => {
   function restart() {
     boids = [];
     visualRange = fov;
+    document.getElementById("fov").innerText = "Field of Vision: " + visualRange/10;
     initBoids();
   };
 
