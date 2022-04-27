@@ -5,10 +5,14 @@ let height = 150;
 const quantity = 200;
 const fov = 100;
 const minimumDistance = 20;
+const matchFactor = 0.05; // Adjust by this % of average velocity
+const centerFactor = 0.005; // adjust velocity by this %
 
 let visualRange = fov;
 let minDistance = minimumDistance;
 let numBoids = quantity;
+let matchingFactor = matchFactor;
+let centeringFactor = centerFactor;
 
 var boids = [];
 
@@ -74,7 +78,6 @@ function keepWithinBounds(boid) {
 // Find the center of mass of the other boids and adjust velocity slightly to
 // point towards the center of mass.
 function flyTowardsCenter(boid) {
-  const centeringFactor = 0.005; // adjust velocity by this %
 
   let centerX = 0;
   let centerY = 0;
@@ -118,7 +121,6 @@ function avoidOthers(boid) {
 // Find the average velocity (speed and direction) of the other boids and
 // adjust velocity slightly to match.
 function matchVelocity(boid) {
-  const matchingFactor = 0.05; // Adjust by this % of average velocity
 
   let avgDX = 0;
   let avgDY = 0;
@@ -226,9 +228,13 @@ window.onload = () => {
     visualRange = fov;
     minDistance = minimumDistance;
     numBoids = quantity;
+    matchingFactor = matchFactor;
+    centeringFactor = centerFactor;
     document.getElementById("fov").innerText = "Field of Vision: " + visualRange/10;
     document.getElementById("avoid").innerText = "Avoidance: " + minDistance/2;
     document.getElementById("num").innerText = "Number of Boids: " + numBoids/20;
+    document.getElementById("match").innerText = "Match Speed: " + Math.round(matchingFactor * 200);
+    document.getElementById("center").innerText = "Fly to Center: " + Math.round(centeringFactor * 2000);
     initBoids();
   };
 
@@ -280,6 +286,34 @@ window.onload = () => {
     };
   };
 
+  function matchUp() {
+    if(matchingFactor <= 0.095) {
+      matchingFactor += 0.005;
+      document.getElementById("match").innerText = "Match Speed: " + Math.round(matchingFactor * 200);
+    };
+  };
+
+  function matchDown() {
+    if(matchingFactor >= 0.005) {
+      matchingFactor -= 0.005;
+      document.getElementById("match").innerText = "Match Speed: " + Math.round(matchingFactor * 200);
+    };
+  };
+
+  function centerUp() {
+    if(centeringFactor <= 0.0095) {
+      centeringFactor += 0.0005;
+      document.getElementById("center").innerText = "Fly to Center: " + Math.round(centeringFactor * 2000);
+    };
+  };
+
+  function centerDown() {
+    if(centeringFactor >= 0.0005) {
+      centeringFactor -= 0.0005;
+      document.getElementById("center").innerText = "Fly to Center: " + Math.round(centeringFactor * 2000);
+    };
+  };
+
   // Add ability to Restart
   document.getElementById("restart").addEventListener("click", restart);
 
@@ -291,4 +325,10 @@ window.onload = () => {
 
   document.getElementById("numUp").addEventListener("click", numUp);
   document.getElementById("numDown").addEventListener("click", numDown);
+
+  document.getElementById("matchUp").addEventListener("click", matchUp);
+  document.getElementById("matchDown").addEventListener("click", matchDown);
+
+  document.getElementById("centerUp").addEventListener("click", centerUp);
+  document.getElementById("centerDown").addEventListener("click", centerDown);
 };
