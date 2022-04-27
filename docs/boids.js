@@ -2,13 +2,17 @@
 let width = 150;
 let height = 150;
 
-const numBoids = 200;
+const quantity = 200;
 const fov = 100;
+const minimumDistance = 20;
+
 let visualRange = fov;
+let minDistance = minimumDistance;
+let numBoids = quantity;
 
 var boids = [];
 
-function initBoids() {
+function initBoids(numBoids = quantity) {
   for (var i = 0; i < numBoids; i += 1) {
     boids[boids.length] = {
       x: Math.random() * width,
@@ -95,7 +99,6 @@ function flyTowardsCenter(boid) {
 
 // Move away from other boids that are too close to avoid colliding
 function avoidOthers(boid) {
-  const minDistance = 20; // The distance to stay away from other boids
   const avoidFactor = 0.05; // Adjust velocity by this %
   let moveX = 0;
   let moveY = 0;
@@ -213,6 +216,7 @@ window.onload = () => {
 
   // Randomly draw Boids
   initBoids();
+  console.log(boids);
 
   // Schedule the main animation loop
   window.requestAnimationFrame(animationLoop);
@@ -220,7 +224,11 @@ window.onload = () => {
   function restart() {
     boids = [];
     visualRange = fov;
+    minDistance = minimumDistance;
+    numBoids = quantity;
     document.getElementById("fov").innerText = "Field of Vision: " + visualRange/10;
+    document.getElementById("avoid").innerText = "Avoidance: " + minDistance/2;
+    document.getElementById("num").innerText = "Number of Boids: " + numBoids/20;
     initBoids();
   };
 
@@ -238,9 +246,49 @@ window.onload = () => {
     };
   };
 
+  function avoidUp() {
+    if(minDistance <= 38) {
+      minDistance += 2;
+      document.getElementById("avoid").innerText = "Avoidance: " + minDistance/2;
+    };
+  };
+
+  function avoidDown() {
+    if(minDistance >= 2) {
+      minDistance -= 2;
+      document.getElementById("avoid").innerText = "Avoidance: " + minDistance/2;
+    };
+  };
+
+  function numUp() {
+    if(numBoids <= 380) {
+      numBoids += 20;
+      document.getElementById("num").innerText = "Number of Boids: " + numBoids/20;
+      initBoids(20);
+    };
+  };
+
+  function numDown() {
+    if(numBoids >= 20) {
+      numBoids -= 20;
+      document.getElementById("num").innerText = "Number of Boids: " + numBoids/20;
+      for(var i = 1; i < 20; i++)
+      {
+        boids.pop();
+      }
+
+    };
+  };
 
   // Add ability to Restart
   document.getElementById("restart").addEventListener("click", restart);
-  document.getElementById("fovDown").addEventListener("click", fovDown);
+
   document.getElementById("fovUp").addEventListener("click", fovUp);
+  document.getElementById("fovDown").addEventListener("click", fovDown);
+
+  document.getElementById("avoidUp").addEventListener("click", avoidUp);
+  document.getElementById("avoidDown").addEventListener("click", avoidDown);
+
+  document.getElementById("numUp").addEventListener("click", numUp);
+  document.getElementById("numDown").addEventListener("click", numDown);
 };
