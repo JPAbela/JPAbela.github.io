@@ -287,7 +287,7 @@ window.onload = () => {
   };
 
   function matchUp() {
-    if(matchingFactor <= 0.095) {
+    if(matchingFactor <= 0.1) {
       matchingFactor += 0.005;
       document.getElementById("match").innerText = "Match Speed: " + Math.round(matchingFactor * 200);
     };
@@ -301,7 +301,7 @@ window.onload = () => {
   };
 
   function centerUp() {
-    if(centeringFactor <= 0.0095) {
+    if(centeringFactor <= 0.1) {
       centeringFactor += 0.0005;
       document.getElementById("center").innerText = "Fly to Center: " + Math.round(centeringFactor * 2000);
     };
