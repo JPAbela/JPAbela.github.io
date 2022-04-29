@@ -7,12 +7,21 @@ const fov = 100;
 const minimumDistance = 20;
 const matchFactor = 0.05; // Adjust by this % of average velocity
 const centerFactor = 0.005; // adjust velocity by this %
+const minHawkDistance = 150;
 
 let visualRange = fov;
 let minDistance = minimumDistance;
 let numBoids = quantity;
 let matchingFactor = matchFactor;
 let centeringFactor = centerFactor;
+
+let hawk = {
+  x: Math.random() * width,
+  y: Math.random() * height,
+  dx: Math.random() * 10 - 5,
+  dy: Math.random() * 10 - 5,
+  history: [],
+};
 
 var boids = [];
 
@@ -118,10 +127,22 @@ function avoidOthers(boid) {
   boid.dy += moveY * avoidFactor;
 }
 
+function avoidHawk(boid) {
+  const avoidFactor = 0.1; // Adjust velocity by this %
+  let moveX = 0;
+  let moveY = 0;
+  if (distance(boid, hawk) < minHawkDistance) {
+    moveX += boid.x - hawk.x;
+    moveY += boid.y - hawk.y;
+  }
+
+  boid.dx += moveX * avoidFactor;
+  boid.dy += moveY * avoidFactor;
+}
+
 // Find the average velocity (speed and direction) of the other boids and
 // adjust velocity slightly to match.
 function matchVelocity(boid) {
-
   let avgDX = 0;
   let avgDY = 0;
   let numNeighbors = 0;
@@ -182,6 +203,31 @@ function drawBoid(ctx, boid) {
   }
 }
 
+function drawHawk(ctx, hawk) {
+  const angle = Math.atan2(hawk.dy, hawk.dx);
+  ctx.translate(hawk.x, hawk.y);
+  ctx.rotate(angle);
+  ctx.translate(-hawk.x, -hawk.y);
+  ctx.fillStyle = "#F3223E";
+  ctx.beginPath();
+  ctx.moveTo(hawk.x, hawk.y);
+  ctx.lineTo(hawk.x - 150, hawk.y + 50);
+  ctx.lineTo(hawk.x - 150, hawk.y - 50);
+  ctx.lineTo(hawk.x, hawk.y);
+  ctx.fill();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+  if (DRAW_TRAIL) {
+    ctx.strokeStyle = "#558cf466";
+    ctx.beginPath();
+    ctx.moveTo(hawk.history[0][0], hawk.history[0][1]);
+    for (const point of hawk.history) {
+      ctx.lineTo(point[0], point[1]);
+    }
+    ctx.stroke();
+  }
+}
+
 // Main animation loop
 function animationLoop() {
   // Update each boid
@@ -189,6 +235,7 @@ function animationLoop() {
     // Update the velocities according to each rule
     flyTowardsCenter(boid);
     avoidOthers(boid);
+    avoidHawk(boid);
     matchVelocity(boid);
     limitSpeed(boid);
     keepWithinBounds(boid);
@@ -200,12 +247,26 @@ function animationLoop() {
     boid.history = boid.history.slice(-50);
   }
 
+  // Update the velocities according to each rule
+  flyTowardsCenter(hawk);
+  avoidOthers(hawk);
+  // matchVelocity(hawk);
+  limitSpeed(hawk);
+  keepWithinBounds(hawk);
+
+  // Update the position based on the current velocity
+  hawk.x += hawk.dx;
+  hawk.y += hawk.dy;
+  hawk.history.push([hawk.x, hawk.y])
+  hawk.history = hawk.history.slice(-50);
+
   // Clear the canvas and redraw all the boids in their current positions
   const ctx = document.getElementById("boids").getContext("2d");
   ctx.clearRect(0, 0, width, height);
   for (let boid of boids) {
     drawBoid(ctx, boid);
   }
+  drawHawk(ctx, hawk);
 
   // Schedule the next frame
   window.requestAnimationFrame(animationLoop);
@@ -218,7 +279,6 @@ window.onload = () => {
 
   // Randomly draw Boids
   initBoids();
-  console.log(boids);
 
   // Schedule the main animation loop
   window.requestAnimationFrame(animationLoop);
