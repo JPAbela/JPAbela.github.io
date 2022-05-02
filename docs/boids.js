@@ -4,7 +4,7 @@ let height = 150;
 
 const quantity = 200;
 const fov = 100;
-const hawkFov = 500;
+const hawkFov = 600;
 const minimumDistance = 20;
 const matchFactor = 0.05; // Adjust by this % of average velocity
 const centerFactor = 0.005; // adjust velocity by this %
@@ -17,13 +17,7 @@ let numBoids = quantity;
 let matchingFactor = matchFactor;
 let centeringFactor = centerFactor;
 
-let hawk = {
-  x: Math.random() * width,
-  y: Math.random() * height,
-  dx: Math.random() * 10 - 5,
-  dy: Math.random() * 10 - 5,
-  history: [],
-};
+let hawk = {};
 
 var boids = [];
 
@@ -37,6 +31,16 @@ function initBoids(numBoids = quantity) {
       history: [],
     };
   }
+}
+
+function initHawk() {
+  hawk = {
+    x: Math.random() * width,
+    y: Math.random() * height,
+    dx: Math.random() * 10 - 5,
+    dy: Math.random() * 10 - 5,
+    history: [],
+  };
 }
 
 function distance(boid1, boid2) {
@@ -129,8 +133,8 @@ function hawkFlyTowardsCenter(boid) {
     centerX = centerX / numNeighbors;
     centerY = centerY / numNeighbors;
 
-    boid.dx += (centerX - boid.x) * centeringFactor;
-    boid.dy += (centerY - boid.y) * centeringFactor;
+    boid.dx += (centerX - boid.x) * (centeringFactor * 3);
+    boid.dy += (centerY - boid.y) * (centeringFactor * 3);
   }
 }
 
@@ -295,9 +299,9 @@ function animationLoop() {
   }
 
   // Update the velocities according to each rule
-  flyTowardsCenter(hawk);
+  hawkFlyTowardsCenter(hawk);
   avoidOthers(hawk);
-  matchVelocity(hawk);
+  hawkMatchVelocity(hawk);
   limitSpeed(hawk);
   keepWithinBounds(hawk);
 
@@ -326,12 +330,14 @@ window.onload = () => {
 
   // Randomly draw Boids
   initBoids();
+  initHawk();
 
   // Schedule the main animation loop
   window.requestAnimationFrame(animationLoop);
 
   function restart() {
     boids = [];
+    hawk = {};
     visualRange = fov;
     hawkVisualRange = hawkFov;
     minDistance = minimumDistance;
@@ -344,12 +350,13 @@ window.onload = () => {
     document.getElementById("match").innerText = "Match Speed: " + Math.round(matchingFactor * 200);
     document.getElementById("center").innerText = "Fly to Center: " + Math.round(centeringFactor * 2000);
     initBoids();
+    initHawk();
   };
 
   function fovUp() {
     if(visualRange <= 190) {
       visualRange += 10;
-      hawkVisualRange += 50
+      hawkVisualRange += 60
       document.getElementById("fov").innerText = "Field of Vision: " + visualRange/10;
     }
   };
@@ -357,7 +364,7 @@ window.onload = () => {
   function fovDown() {
     if(visualRange >= 10) {
       visualRange -= 10;
-      hawkVisualRange -= 50;
+      hawkVisualRange -= 60;
       document.getElementById("fov").innerText = "Field of Vision: " + visualRange/10;
     };
   };
