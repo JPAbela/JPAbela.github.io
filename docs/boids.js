@@ -18,7 +18,7 @@ let matchingFactor = matchFactor;
 let centeringFactor = centerFactor;
 
 let hawk = {};
-
+let hawkReleased = false;
 var boids = [];
 
 function initBoids(numBoids = quantity) {
@@ -298,18 +298,20 @@ function animationLoop() {
     boid.history = boid.history.slice(-50);
   }
 
-  // Update the velocities according to each rule
-  hawkFlyTowardsCenter(hawk);
-  avoidOthers(hawk);
-  hawkMatchVelocity(hawk);
-  limitSpeed(hawk);
-  keepWithinBounds(hawk);
+  if(hawkReleased) {
+    // Update the velocities according to each rule
+    hawkFlyTowardsCenter(hawk);
+    avoidOthers(hawk);
+    hawkMatchVelocity(hawk);
+    limitSpeed(hawk);
+    keepWithinBounds(hawk);
 
-  // Update the position based on the current velocity
-  hawk.x += hawk.dx;
-  hawk.y += hawk.dy;
-  hawk.history.push([hawk.x, hawk.y])
-  hawk.history = hawk.history.slice(-50);
+    // Update the position based on the current velocity
+    hawk.x += hawk.dx;
+    hawk.y += hawk.dy;
+    hawk.history.push([hawk.x, hawk.y]);
+    hawk.history = hawk.history.slice(-50);
+  }
 
   // Clear the canvas and redraw all the boids in their current positions
   const ctx = document.getElementById("boids").getContext("2d");
@@ -317,7 +319,9 @@ function animationLoop() {
   for (let boid of boids) {
     drawBoid(ctx, boid);
   }
-  drawHawk(ctx, hawk);
+  if(hawkReleased) {
+    drawHawk(ctx, hawk);
+  }
 
   // Schedule the next frame
   window.requestAnimationFrame(animationLoop);
@@ -338,6 +342,7 @@ window.onload = () => {
   function restart() {
     boids = [];
     hawk = {};
+    hawkReleased = false;
     visualRange = fov;
     hawkVisualRange = hawkFov;
     minDistance = minimumDistance;
@@ -349,6 +354,7 @@ window.onload = () => {
     document.getElementById("num").innerText = "Number of Boids: " + numBoids/20;
     document.getElementById("match").innerText = "Match Speed: " + Math.round(matchingFactor * 200);
     document.getElementById("center").innerText = "Fly to Center: " + Math.round(centeringFactor * 2000);
+    document.getElementById("hawk").innerText = "Release the Hawk";
     initBoids();
     initHawk();
   };
@@ -431,6 +437,17 @@ window.onload = () => {
     };
   };
 
+  function releaseHawk() {
+    if(hawkReleased) {
+      document.getElementById("hawk").innerText = "Release the Hawk";
+      hawkReleased = false;
+    }
+    else {
+      document.getElementById("hawk").innerText = "Remove the Hawk";
+      hawkReleased = true;
+    }
+  }
+
   // Add ability to Restart
   document.getElementById("restart").addEventListener("click", restart);
 
@@ -448,4 +465,6 @@ window.onload = () => {
 
   document.getElementById("centerUp").addEventListener("click", centerUp);
   document.getElementById("centerDown").addEventListener("click", centerDown);
+
+  document.getElementById("hawk").addEventListener("click", releaseHawk);
 };
