@@ -4,12 +4,14 @@ let height = 150;
 
 const quantity = 200;
 const fov = 100;
+const hawkFov = 500;
 const minimumDistance = 20;
 const matchFactor = 0.05; // Adjust by this % of average velocity
 const centerFactor = 0.005; // adjust velocity by this %
 const minHawkDistance = 150;
 
 let visualRange = fov;
+let hawkVisualRange = hawkFov;
 let minDistance = minimumDistance;
 let numBoids = quantity;
 let matchingFactor = matchFactor;
@@ -109,6 +111,29 @@ function flyTowardsCenter(boid) {
   }
 }
 
+function hawkFlyTowardsCenter(boid) {
+
+  let centerX = 0;
+  let centerY = 0;
+  let numNeighbors = 0;
+
+  for (let otherBoid of boids) {
+    if (distance(boid, otherBoid) < hawkVisualRange) {
+      centerX += otherBoid.x;
+      centerY += otherBoid.y;
+      numNeighbors += 1;
+    }
+  }
+
+  if (numNeighbors) {
+    centerX = centerX / numNeighbors;
+    centerY = centerY / numNeighbors;
+
+    boid.dx += (centerX - boid.x) * centeringFactor;
+    boid.dy += (centerY - boid.y) * centeringFactor;
+  }
+}
+
 // Move away from other boids that are too close to avoid colliding
 function avoidOthers(boid) {
   const avoidFactor = 0.05; // Adjust velocity by this %
@@ -128,7 +153,7 @@ function avoidOthers(boid) {
 }
 
 function avoidHawk(boid) {
-  const avoidFactor = 0.1; // Adjust velocity by this %
+  const avoidFactor = 0.05; // Adjust velocity by this %
   let moveX = 0;
   let moveY = 0;
   if (distance(boid, hawk) < minHawkDistance) {
@@ -149,6 +174,28 @@ function matchVelocity(boid) {
 
   for (let otherBoid of boids) {
     if (distance(boid, otherBoid) < visualRange) {
+      avgDX += otherBoid.dx;
+      avgDY += otherBoid.dy;
+      numNeighbors += 1;
+    }
+  }
+
+  if (numNeighbors) {
+    avgDX = avgDX / numNeighbors;
+    avgDY = avgDY / numNeighbors;
+
+    boid.dx += (avgDX - boid.dx) * matchingFactor;
+    boid.dy += (avgDY - boid.dy) * matchingFactor;
+  }
+}
+
+function hawkMatchVelocity(boid) {
+  let avgDX = 0;
+  let avgDY = 0;
+  let numNeighbors = 0;
+
+  for (let otherBoid of boids) {
+    if (distance(boid, otherBoid) < hawkVisualRange) {
       avgDX += otherBoid.dx;
       avgDY += otherBoid.dy;
       numNeighbors += 1;
@@ -211,8 +258,8 @@ function drawHawk(ctx, hawk) {
   ctx.fillStyle = "#F3223E";
   ctx.beginPath();
   ctx.moveTo(hawk.x, hawk.y);
-  ctx.lineTo(hawk.x - 150, hawk.y + 50);
-  ctx.lineTo(hawk.x - 150, hawk.y - 50);
+  ctx.lineTo(hawk.x - 100, hawk.y + 25);
+  ctx.lineTo(hawk.x - 100, hawk.y - 25);
   ctx.lineTo(hawk.x, hawk.y);
   ctx.fill();
   ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -250,7 +297,7 @@ function animationLoop() {
   // Update the velocities according to each rule
   flyTowardsCenter(hawk);
   avoidOthers(hawk);
-  // matchVelocity(hawk);
+  matchVelocity(hawk);
   limitSpeed(hawk);
   keepWithinBounds(hawk);
 
@@ -286,6 +333,7 @@ window.onload = () => {
   function restart() {
     boids = [];
     visualRange = fov;
+    hawkVisualRange = hawkFov;
     minDistance = minimumDistance;
     numBoids = quantity;
     matchingFactor = matchFactor;
@@ -301,6 +349,7 @@ window.onload = () => {
   function fovUp() {
     if(visualRange <= 190) {
       visualRange += 10;
+      hawkVisualRange += 50
       document.getElementById("fov").innerText = "Field of Vision: " + visualRange/10;
     }
   };
@@ -308,6 +357,7 @@ window.onload = () => {
   function fovDown() {
     if(visualRange >= 10) {
       visualRange -= 10;
+      hawkVisualRange -= 50;
       document.getElementById("fov").innerText = "Field of Vision: " + visualRange/10;
     };
   };
