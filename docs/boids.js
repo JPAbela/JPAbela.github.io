@@ -4,7 +4,7 @@ let height = 150;
 
 const quantity = 200;
 const fov = 100;
-const hawkFov = 600;
+const hawkFov = 200;
 const minimumDistance = 20;
 const matchFactor = 0.05; // Adjust by this % of average velocity
 const centerFactor = 0.005; // adjust velocity by this %
@@ -133,8 +133,8 @@ function hawkFlyTowardsCenter(boid) {
     centerX = centerX / numNeighbors;
     centerY = centerY / numNeighbors;
 
-    boid.dx += (centerX - boid.x) * (centeringFactor * 3);
-    boid.dy += (centerY - boid.y) * (centeringFactor * 3);
+    boid.dx += (centerX - boid.x) * centeringFactor;
+    boid.dy += (centerY - boid.y) * centeringFactor;
   }
 }
 
