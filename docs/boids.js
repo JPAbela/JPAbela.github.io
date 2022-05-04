@@ -334,7 +334,6 @@ window.onload = () => {
 
   // Randomly draw Boids
   initBoids();
-  initHawk();
 
   // Schedule the main animation loop
   window.requestAnimationFrame(animationLoop);
@@ -356,7 +355,6 @@ window.onload = () => {
     document.getElementById("center").innerText = "Fly to Center: " + Math.round(centeringFactor * 2000);
     document.getElementById("hawk").innerText = "Release the Hawk";
     initBoids();
-    initHawk();
   };
 
   function fovUp() {
@@ -440,10 +438,12 @@ window.onload = () => {
   function releaseHawk() {
     if(hawkReleased) {
       document.getElementById("hawk").innerText = "Release the Hawk";
+      hawk = {};
       hawkReleased = false;
     }
     else {
       document.getElementById("hawk").innerText = "Remove the Hawk";
+      initHawk();
       hawkReleased = true;
     }
   }
