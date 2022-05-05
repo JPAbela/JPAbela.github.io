@@ -422,7 +422,7 @@ window.onload = () => {
   };
 
   function centerUp() {
-    if(centeringFactor <= 0.1) {
+    if(centeringFactor <= 0.01) {
       centeringFactor += 0.0005;
       document.getElementById("center").innerText = "Fly to Center: " + Math.round(centeringFactor * 2000);
     };
