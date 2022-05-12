@@ -16,6 +16,8 @@ let xposright;
 let yposright;
 
 let lineLength;
+let targetLength = 50;
+let targetStart;
 
 let angle = 0;
 
@@ -35,6 +37,8 @@ function setup()
   yposright = height - 10;
 
   lineLength = (2/9) * width;
+  targetStart = xposright + 100 + random(width - (150 + xposright));
+
 
   xpos = findXpos(angle) + (xposright - findXpos(angle))/2;
   ypos = ogBallHeight/2;
@@ -54,6 +58,9 @@ function draw()
   strokeWeight(20);
   stroke(150);
   line(findXpos(angle), findYpos(angle), xposright, yposright);
+  strokeWeight(10);
+  stroke(255);
+  line(targetStart, height - 5, targetStart + targetLength, height - 5);
 
   if(released)
   {
@@ -155,6 +162,11 @@ function bounceBottom()
 {
   if(ypos + ballHeight/2 > height)
   {
+    if(xpos > targetStart && xpos < targetStart + targetLength)
+    {
+      ballHeight = 0;
+      ballWidth = 0;
+    }
     ballHeight *= 1 - (yspeed * .001);
     ballWidth *= 1 + (yspeed * .001);
     // hasHitBottom = true;
