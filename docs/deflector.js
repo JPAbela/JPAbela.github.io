@@ -27,6 +27,12 @@ let speedCheck = false;
 
 let hasBounced = false;
 
+let started = false;
+
+let done = false;
+
+let tries;
+
 function setup()
 {
   let canvas = createCanvas(windowWidth, windowHeight);
@@ -44,12 +50,24 @@ function setup()
   ypos = ogBallHeight/2;
 
   released = false;
+
+  tries = 0;
 }
 
 function draw()
 {
   frameRate();
-  springBack();
+
+  if(!started)
+  {
+    xpos = findXpos(angle) + (xposright - findXpos(angle))/2;
+    ypos = ogBallHeight/2;
+  }
+
+  if(!done)
+  {
+    springBack();
+  }
 
   let back = color(0, 165, 255);
   background(back);
@@ -69,9 +87,9 @@ function draw()
 
   bounceRamp();
   bounceBottom();
-  bounceTop();
-  bounceLeft();
-  bounceRight();
+  // bounceTop();
+  // bounceLeft();
+  exitRight();
 
 
   ypos += yspeed;
@@ -89,6 +107,14 @@ function draw()
   noStroke();
   fill(ballColor);
   ellipse(xpos, ypos, ballWidth, ballHeight);
+
+  if(done)
+  {
+    fill(color(0));
+    textSize(30);
+    let message = "Good job! you got it in " + tries + " tries.";
+    text(message, 700, 500);
+  }
 }
 
 function findXpos(angle)
@@ -106,6 +132,7 @@ function findYpos(angle)
 
 function keyPressed()
 {
+  started = true;
   if(keyCode === UP_ARROW && angle < HALF_PI - QUARTER_PI/2)
   {
     angle += .05 * QUARTER_PI;
@@ -124,16 +151,16 @@ function keyPressed()
   }
   else if(keyCode === LEFT_ARROW)
   {
-    if(!released && xpos > findXpos(angle) + 5)
+    if(!released && xpos > findXpos(angle) + 10)
     {
-      xpos -= 5;
+      xpos -= 10;
     }
   }
   else if(keyCode === RIGHT_ARROW)
   {
-    if(!released && xpos < xposright - 5)
+    if(!released && xpos < xposright - 10)
     {
-      xpos += 5;
+      xpos += 10;
     }
   }
   else if(keyCode === OPTION)
@@ -166,6 +193,14 @@ function bounceBottom()
     {
       ballHeight = 0;
       ballWidth = 0;
+      xspeed = 0;
+      yspeed = 0;
+      totSpeed = 0;
+      if(!done)
+      {
+        tries ++;
+      }
+      done = true;
     }
     ballHeight *= 1 - (yspeed * .001);
     ballWidth *= 1 + (yspeed * .001);
@@ -176,6 +211,19 @@ function bounceBottom()
   }
   if(ypos + ballHeight/2 === height)
   {
+    if(xpos > targetStart && xpos < targetStart + targetLength)
+    {
+      ballHeight = 0;
+      ballWidth = 0;
+      xspeed = 0;
+      yspeed = 0;
+      totSpeed = 0;
+      if(!done)
+      {
+        tries ++;
+      }
+      done = true;
+    }
     xspeed *= 0.98;
   }
   if((ypos > height - (ballHeight * .6)) && (yspeed > -1.5 && yspeed < 2.31))
@@ -211,16 +259,16 @@ function bounceLeft()
   }
 }
 
-function bounceRight()
+function exitRight()
 {
   if(xpos + ballWidth/2 > width)
   {
-    ballHeight *= 1 + (yspeed * .001);
-    ballWidth *= 1 - (yspeed * .001);
-    // hasHitRight = true;
-    xpos = width - ballHeight/2;
-    xspeed *= -0.65;
-    yspeed *= 0.995;
+    xspeed = 0;
+    yspeed = 0;
+    totSpeed = 0;
+    released = false;
+    started = false;
+    tries ++;
   }
 }
 
@@ -280,5 +328,12 @@ function bounceRamp()
     }
   }
 }
+
+function restart()
+{
+  location.reload();
+}
+
+document.getElementById("restart").addEventListener("click", restart);
 
 //  use the law of reflection for ball bounce
