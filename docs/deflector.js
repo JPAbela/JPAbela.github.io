@@ -118,11 +118,11 @@ function draw()
     textSize(30);
     if(tries == 1)
     {
-      message = "Wow! you got it in 1 try!";
+      message = "Wow! You got it in 1 try!";
     }
     else
     {
-      message = "Good job! you got it in " + tries + " tries.";
+      message = "Good job! You got it in " + tries + " tries.";
     }
     text(message, 700, 500);
     text(restartMessage, 740, 540);
