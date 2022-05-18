@@ -25,13 +25,15 @@ let released;
 
 let speedCheck = false;
 
-let hasBounced = false;
+// let hasBounced = false;
 
 let started = false;
 
 let done = false;
 
 let tries;
+
+let message;
 
 function setup()
 {
@@ -112,7 +114,14 @@ function draw()
   {
     fill(color(0));
     textSize(30);
-    let message = "Good job! you got it in " + tries + " tries.";
+    if(tries == 1)
+    {
+      message = "Wow! you got it in 1 try!";
+    }
+    else
+    {
+      message = "Good job! you got it in " + tries + " tries.";
+    }
     text(message, 700, 500);
   }
 }
@@ -311,13 +320,13 @@ function bounceRamp()
     if(ypos >= yval - (ballHeight/2 + 10) || ypos + yspeed > yval - (ballHeight/2 - 10))
     {
       ypos = yval - (ballHeight/2  + 10);
-      if(hasBounced){
-        totSpeed = .65 * yspeed;
-      }
-      else{
+      // if(hasBounced){
+      //   totSpeed = .65 * yspeed;
+      // }
+      // else{
         totSpeed = .8 * yspeed;
-        hasBounced = true;
-      }
+      //   hasBounced = true;
+      // }
       yspeed = -1 * totSpeed * sin(HALF_PI - (2 * angle));
       xspeed = totSpeed * cos(HALF_PI - (2 * angle));
     }
