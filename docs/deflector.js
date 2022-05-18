@@ -31,9 +31,11 @@ let started = false;
 
 let done = false;
 
-let tries;
+let tries = 0;
 
 let message;
+
+let restartMessage = "Click restart to try again.";
 
 function setup()
 {
@@ -103,7 +105,7 @@ function draw()
 
   if(speedCheck)
   {
-    console.log(yspeed);
+    console.log(xspeed);
   }
 
   noStroke();
@@ -123,7 +125,10 @@ function draw()
       message = "Good job! you got it in " + tries + " tries.";
     }
     text(message, 700, 500);
+    text(restartMessage, 740, 540);
   }
+
+  document.getElementById("tries").innerText = "Tries: " + tries;
 }
 
 function findXpos(angle)
@@ -232,6 +237,15 @@ function bounceBottom()
         tries ++;
       }
       done = true;
+    }
+    if(xspeed == 0 && !done)
+    {
+      xspeed = 0;
+      yspeed = 0;
+      totSpeed = 0;
+      released = false;
+      started = false;
+      tries ++;
     }
     xspeed *= 0.98;
   }
