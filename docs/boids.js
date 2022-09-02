@@ -157,16 +157,24 @@ function avoidOthers(boid) {
 }
 
 function avoidHawk(boid) {
-  const avoidFactor = 0.05; // Adjust velocity by this %
+  const mustAvoidFactor = 0.05; // Adjust velocity by this % if boid is too close to hawk
+  const usualAvoidFactor = 0.005; //Adjust velocity by this % usually
   let moveX = 0;
   let moveY = 0;
   if (distance(boid, hawk) < minHawkDistance) {
     moveX += boid.x - hawk.x;
     moveY += boid.y - hawk.y;
-  }
 
-  boid.dx += moveX * avoidFactor;
-  boid.dy += moveY * avoidFactor;
+    boid.dx += moveX * mustAvoidFactor;
+    boid.dy += moveY * mustAvoidFactor;
+  }
+  else {
+    moveX += boid.x - hawk.x;
+    moveY += boid.y - hawk.y;
+
+    boid.dx += moveX * usualAvoidFactor;
+    boid.dy += moveY * usualAvoidFactor;
+  }
 }
 
 // Find the average velocity (speed and direction) of the other boids and
