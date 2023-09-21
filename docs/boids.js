@@ -23,7 +23,7 @@ var boids = [];
 
 function initBoids(numBoids = quantity) {
   for (var i = 0; i < numBoids; i += 1) {
-    boids[boids.length] = {
+    boids[i] = {
       x: Math.random() * width,
       y: Math.random() * height,
       dx: Math.random() * 10 - 5,
